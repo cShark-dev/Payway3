@@ -34,16 +34,23 @@ namespace Payway.Models
         public DateTime DOB { get; set; }
         [DataType(DataType.Date), Display(Name = "Date Joined")]
         public DateTime DateJoined { get; set; }
+        
+        [Required(ErrorMessage = "Job Role is required"), StringLength(100)]
         public string Designation { get; set; }
-
+        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
-        [Required, MaxLength(50)]
+        
+        [Required, StringLength(50), Display(Name = "Ni No. ")]
+        [RegularExpression(@"^[A-CEGHJ-PR-TW-Z] {1} [A-CEGHJ-NPR-TW-Z] {1}[0-9]{6}[A-D\s]$")]
         public string NationalInsuranceNo { get; set; }
-
+        [Display(Name ="Payment Method")]
         public PaymentMethod PaymentMethod { get; set; }
+        [Display(Name ="Student Loan")]
         public StudentLoan StudentLoan { get; set; }
+        [Display(Name ="Union member")]
         public UnionMember UnionMember { get; set; }
         [Required,MaxLength(50)]
+        public string Address { get; set; }
         public string Postcode { get; set; }
 
     }

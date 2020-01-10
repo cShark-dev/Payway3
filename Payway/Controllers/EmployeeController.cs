@@ -33,9 +33,11 @@ namespace Payway.Controllers
                 DateJoined = employee.DateJoined
             }).ToList();
 
-            return View(employees);
+            return View(employees);    //Return a collection of employees to the view
 
         }
+
+        
 
     }
 }
