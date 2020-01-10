@@ -24,7 +24,7 @@ namespace Payway.Models
         public string LastName { get; set; }
         public string FullName {   
            get  {
-                return FirstName + (string.IsNullOrEmpty(MiddleName) ? " " : (" " + (char?)MiddleName[0] + ".").ToUpper()) + LastName;
+                return FirstName + (string.IsNullOrEmpty(MiddleName)? " " : (" " + (char?)MiddleName[0] + ".").ToUpper()) + LastName;   //cast to character, return first character, the first character is index 0
            }          
         }
         public string Gender { get; set; }
@@ -33,15 +33,17 @@ namespace Payway.Models
         [DataType(DataType.Date), Display(Name = "Date of Birth")]
         public DateTime DOB { get; set; }
         [DataType(DataType.Date), Display(Name = "Date Joined")]
-        public DateTime DateJoined { get; set; }
+        public DateTime DateJoined { get; set; } = DateTime.UtcNow;
+
+        public string Phone { get; set; }
         
         [Required(ErrorMessage = "Job Role is required"), StringLength(100)]
         public string Designation { get; set; }
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
-        
-        [Required, StringLength(50), Display(Name = "Ni No. ")]
-        [RegularExpression(@"^[A-CEGHJ-PR-TW-Z] {1} [A-CEGHJ-NPR-TW-Z] {1}[0-9]{6}[A-D\s]$")]
+                 
+        [Required, StringLength(50), Display(Name = "NI No. ")]
+        [RegularExpression(@"^[A-CEGHJ-PR-TW-Z] {1} [A-CEGHJ-NPR-TW-Z] {1} [0-9] {6} [A-D\s]$")]
         public string NationalInsuranceNo { get; set; }
         [Display(Name ="Payment Method")]
         public PaymentMethod PaymentMethod { get; set; }
@@ -49,8 +51,11 @@ namespace Payway.Models
         public StudentLoan StudentLoan { get; set; }
         [Display(Name ="Union member")]
         public UnionMember UnionMember { get; set; }
-        [Required,MaxLength(50)]
+        [Required,StringLength(150)]
         public string Address { get; set; }
+        [Required,StringLength(50)]
+        public string City { get; set; }
+        [Required, StringLength(50)]
         public string Postcode { get; set; }
 
     }
