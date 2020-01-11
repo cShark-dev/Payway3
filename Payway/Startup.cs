@@ -12,6 +12,8 @@ using Payway.Persistence;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Payway.Services;
+using Payway.Services.Implementation;
 
 namespace Payway
 {
@@ -25,7 +27,7 @@ namespace Payway
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)          //IserviceCollection is a container
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
@@ -34,6 +36,7 @@ namespace Payway
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
+            services.AddScoped<IEmployeeService, EmployeeService>();            //A services added to the container which in turn makes that service available for Dependency injection, now this service can be injected anywhere
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

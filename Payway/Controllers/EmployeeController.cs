@@ -19,7 +19,7 @@ namespace Payway.Controllers
 
         private readonly IEmployeeService _employeeService;
         private readonly IWebHostEnvironment _env;
-        public EmployeeController(IEmployeeService employeeService, IWebHostEnvironment env)
+        public EmployeeController(IEmployeeService employeeService, IWebHostEnvironment env)            //We injected IEmployeeService which is our interface
         {
             _employeeService = employeeService;
             _env = env;
