@@ -10,6 +10,7 @@ using Microsoft.Extensions.Hosting.Internal;
 using Payway.Entity;
 using Payway.Models;
 using Payway.Services;
+using Payway.Persistence;
 
 namespace Payway.Controllers
 {
@@ -100,8 +101,90 @@ namespace Payway.Controllers
             }
             return View();      //If Model state is not valid return View
         }
-
         
+        
+        public IActionResult Edit(int id)
+        {
+            var employee = _employeeService.GetById(id);            //Retrieve an employee by ID, then we pass the employee to our view model which will be rendered to our view
+            if (employee == null)
+            {
+                return NotFound();
+            }
+            var model = new EmployeeEditViewModel()     //If we find an employee we are going to render this employee to our new edit employee view model
+            {
+                Id = employee.Id,                                  //Mapping
+                EmployeeNo = employee.EmployeeNo,
+                FirstName = employee.FirstName,
+                MiddleName = employee.MiddleName,
+                LastName = employee.LastName,
+                Gender = employee.Gender,
+                Email = employee.Email,
+                DOB = employee.DOB,
+                DateJoined = employee.DateJoined,
+                NationalInsuranceNo = employee.NationalInsuranceNo,
+                PaymentMethod = employee.PaymentMethod,
+                StudentLoan = employee.StudentLoan,
+                UnionMember = employee.UnionMember,
+                Address = employee.Address,
+                City = employee.City,
+                Phone = employee.Phone,
+                Postcode = employee.Postcode,
+                Designation = employee.Designation,
 
+
+            };
+
+            return View(model);         //That's our HttpGet
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(EmployeeEditViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var employee = _employeeService.GetById(model.Id);           //Retrieve employee again, the model that we have in the view
+                if (employee == null)
+                {
+                    return NotFound();
+                }
+                employee.EmployeeNo = model.EmployeeNo;
+                employee.FirstName = model.FirstName;
+                employee.LastName = model.LastName;
+                employee.MiddleName = model.MiddleName;
+                employee.NationalInsuranceNo = model.NationalInsuranceNo;
+                employee.Gender = model.Gender;
+                employee.Email = model.Email;
+                employee.DOB = model.DOB;
+                employee.DateJoined = model.DateJoined;
+                employee.Phone = model.Phone;
+                employee.Designation = model.Designation;
+                employee.PaymentMethod = model.PaymentMethod;
+                employee.StudentLoan = model.StudentLoan;
+                employee.UnionMember = model.UnionMember;
+                employee.Address = model.Address;
+                employee.City = model.City;
+                employee.Postcode = model.Postcode;
+                if (model.ImageUrl != null && model.ImageUrl.Length > 0)
+                {
+                    var uploadDir = @"images/employee";
+                    var fileName = Path.GetFileNameWithoutExtension(model.ImageUrl.FileName);
+                    var extension = Path.GetExtension(model.ImageUrl.FileName);
+                    var webRootPath = _env.WebRootPath;
+                    fileName = DateTime.UtcNow.ToString("yymmssfff") + fileName + extension;
+                    var path = Path.Combine(webRootPath, uploadDir, fileName);
+                    await model.ImageUrl.CopyToAsync(new FileStream(path, FileMode.Create));  //Copy image to the filestream
+                    employee.ImageUrl = "/" + uploadDir + "/" + fileName;  //The Image URL that persists to the database
+                }
+                await _employeeService.UpdateAsync(employee);
+                return RedirectToAction(nameof(Index));
+
+            }
+           
+            
+
+
+            return View();
+        }
     }
 }
