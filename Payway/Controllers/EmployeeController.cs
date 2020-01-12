@@ -26,7 +26,7 @@ namespace Payway.Controllers
 
         }
 
-        public IActionResult Index()
+        public IActionResult Index()                
         {
             var employees = _employeeService.GetAll().Select(employee => new EmployeeIndexViewModel
             {
