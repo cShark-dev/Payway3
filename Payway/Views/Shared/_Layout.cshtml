@@ -6,8 +6,9 @@
     <title>@ViewData["Title"] - Payway</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
-    <link href="~/css/style.css" rel="stylesheet" />     
+    <link href="~/css/style.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css">
+    
 </head>
 <body>
     <div class="container-scroller">
@@ -23,13 +24,13 @@
             <nav class="sidebar sidebar-offcanvas" id="sidebar">
                 <ul class="nav">
                     <li class="nav-item">
-                        <a class="nav-link" data-toggle="collapse" href="#Employee" aria-expanded="false" aria-controls="ui-basic">
+                        <a class="nav-link" data-toggle="collapse" data-target="#Employee" aria-expanded="false" aria-controls="ui-basic">
                             <i class="fas fa-users fa-lg text-primary" style="margin-right:0.7em"></i>
                             <span class="menu-title">Employee</span>
                             <i class="menu-arrow text-primary"></i>
                         </a>
-                        <div class="collapse" id="Employee"></div>
-                        <ul class="nav flex-column sub-menu">
+                        <div id="Employee" class="collapse"></div>
+                        <ul id="Employee" class="nav flex-column sub-menu">
                             <li class="nav-item"><a class="nav-link" asp-controller="Employee" asp-action="Create">New Employees</a></li>
                             <li class="nav-item"><a class="nav-link" asp-controller="Employee" asp-action="Index">All Employees</a></li>
                         </ul>
