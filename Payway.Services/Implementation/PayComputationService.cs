@@ -17,9 +17,9 @@ namespace Payway.Services.Implementation
         private decimal overtimeHours;
         private readonly ApplicationDbContext context;
 
-        public PayComputationService(ApplicationDbContext _context)
+        public PayComputationService(ApplicationDbContext context)
         {
-            _context = context;
+             this.context = context;
 
         }
         

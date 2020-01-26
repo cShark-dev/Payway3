@@ -12,6 +12,7 @@ namespace Payway.Services.Implementation
     {
         private readonly ApplicationDbContext _context;
         private decimal studentLoanAmount;
+        private decimal fee;
 
         public EmployeeService(ApplicationDbContext context)
         {
@@ -75,7 +76,9 @@ namespace Payway.Services.Implementation
 
         public decimal UnionFees(int id)
         {
-            throw new NotImplementedException();
+            var employee = GetById(id);                        //Step 1: Check if the employee is a union member, get employee by ID
+            var fee = employee.UnionMember == UnionMember.Yes ? 10m : 0m;
+            return fee;
         }
 
 
