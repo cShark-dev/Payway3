@@ -36,13 +36,13 @@
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-toggle="collapse" href="#Payroll" aria-expanded="false" aria-controls="ui-basic">
+                        <a class="nav-link" data-toggle="collapse" data-target="#Payroll" aria-expanded="false" aria-controls="ui-basic">
                             <i class="fas fa-pound-sign fa-lg text-primary" style="margin-right:0.7em"></i>
                             <span class="menu-title">Payroll</span>
                             <i class="menu-arrow text-primary"></i>
                         </a>
-                        <div class="collapse" id="Payroll"></div>
-                        <ul class="nav flex-column sub-menu">
+                        <div id="Payroll" class="collapse"></div>
+                        <ul id="Payroll" class="nav flex-column sub-menu">
                             <li class="nav-item"><a class="nav-link" asp-controller="Pay" asp-action="Create"> New Pay</a></li>
                             <li class="nav-item"><a class="nav-link" asp-controller="Pay" asp-action="Index"> Payment Records</a></li>
                         </ul>
