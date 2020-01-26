@@ -26,7 +26,7 @@ namespace Payway.Controllers
 
         }
 
-        public IActionResult Index()                
+        public IActionResult Index(int? pageNumber)                
         {
             var employees = _employeeService.GetAll().Select(employee => new EmployeeIndexViewModel
             {
@@ -40,8 +40,8 @@ namespace Payway.Controllers
                 City = employee.City,
                 DateJoined = employee.DateJoined
             }).ToList();
-
-            return View(employees);    //Return a collection of employees to the view
+            int pageSize = 4;
+            return View(EmployeeListPagination<EmployeeIndexViewModel>.Create(employees, pageNumber ?? 1, pageSize) );    //Return a collection of employees to the view
 
         }
 
