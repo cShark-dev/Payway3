@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Payway.Entity;
 
 namespace Payway.Services
@@ -16,5 +17,7 @@ namespace Payway.Services
         decimal UnionFees(int id); //Retrieve a union fee, first pass the employee id t ocheck if the employee is a union member, if member then a union fee will apply to this employee 
         decimal StudentLoanRepaymentAmount(int id, decimal totalAmount); //We check if the employee is paying back student loan, we need to know the total amount the employee has earned
         IEnumerable<Employee> GetAll(); //A method to return a list of all the employees, an IEnumerable of employees, a collection of employees that we call GetAll
+        IEnumerable<SelectListItem> GetallEmployeesForPayroll();
+
     }
 }

@@ -86,5 +86,8 @@ namespace Payway.Services.Implementation
 
         public decimal TotalEarnings(decimal overtimeEarnings, decimal contractualEarnings)
          => overtimeEarnings + contractualEarnings;
+
+        public TaxYear GetTaxYearById(int id)
+        => context.TaxYears.Where(year => year.Id == id).FirstOrDefault();
     }
 }

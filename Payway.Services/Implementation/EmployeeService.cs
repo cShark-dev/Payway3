@@ -1,4 +1,5 @@
-﻿using Payway.Entity;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Payway.Entity;
 using Payway.Persistence;
 using System;
 using System.Collections.Generic;
@@ -81,14 +82,15 @@ namespace Payway.Services.Implementation
             return fee;
         }
 
+        public IEnumerable<SelectListItem> GetallEmployeesForPayroll()
+        {
+            return GetAll().Select(emp => new SelectListItem()                    //We already have a collection of Employees the GetAll in this file, we need to project that to a new form which is a select list item
+            {
+                Text = emp.FullName,
+                Value = emp.Id.ToString()
 
-
-
-
-
-
-
-
-
+            });
+            
+        }
     }
 }
