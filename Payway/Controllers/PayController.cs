@@ -104,10 +104,89 @@ namespace Payway.Controllers
 
             ViewBag.employees = _employeeService.GetallEmployeesForPayroll();                   //IF the model state fails, we still want the drop down list of all employees, This will render a selectable drop down list of all employees, we need to return the collection of employees as a select list item type
             ViewBag.taxYears = _payComputationService.GetAllTaxYear();      //AND all the tax years together with the view, this create is async so the method Iactionresult needs to be async
-
-
             return View();
         }
 
+        public IActionResult Detail(int id)             //We need to create a detail view model, go to models folder and add a class named "PaymentRecordDetailViewModel"
+        {
+
+            var paymentRecord = _payComputationService.GetById(id);          //In order to display the payment records we need to retrieve the payment record by ID
+            if (paymentRecord == null)
+            {
+                return NotFound();
+            }
+
+            var model = new PaymentRecordDetailviewModel                                        //Next we need our model
+            {
+
+                Id = paymentRecord.Id,
+                EmployeeId = paymentRecord.EmployeeId,
+                FullName = paymentRecord.FullName,
+                NiNo = paymentRecord.NiNo,
+                PayDate = paymentRecord.PayDate,
+                PayMonth = paymentRecord.PayMonth,
+                TaxYearId = paymentRecord.TaxYearId,                    
+                Year = _payComputationService.GetTaxYearById(paymentRecord.TaxYearId).YearOfTax,
+                TaxCode = paymentRecord.TaxCode, 
+                HourlyRate = paymentRecord.HourlyRate,
+                HoursWorked = paymentRecord.HoursWorked,
+                ContractualHours = paymentRecord.ContractualHours,
+                OvertimeHours = paymentRecord.OvertimeHours,
+                OvertimeRate = _payComputationService.OvertimeRate(paymentRecord.HourlyRate),
+                ContractualEarnings = paymentRecord.ContractualEarnings,
+                OvertimeEarnings = paymentRecord.OvertimeEarnings,
+                Tax = paymentRecord.Tax, 
+                NIC = paymentRecord.NIC,
+                UnionFee = paymentRecord.UnionFee,
+                SLC = paymentRecord.SLC,
+                TotalEarnings = paymentRecord.TotalEarnings,
+                TotalDeduction = paymentRecord.TotalDeduction,
+                Employee = paymentRecord.Employee,                  //This employee is equal to paymentRecord.Employee
+                TaxYear = paymentRecord.TaxYear,
+                NetPayment = paymentRecord.NetPayment,
+            };
+            return View(model);
+        }
+        [HttpGet]                           //The payslip action method is going to be the same as the details action method, we are using the same detail view model as well 
+        public IActionResult Payslip(int id)             //We need to create a detail view model, go to models folder and add a class named "PaymentRecordDetailViewModel"
+        {
+
+            var paymentRecord = _payComputationService.GetById(id);          //In order to display the payment records we need to retrieve the payment record by ID
+            if (paymentRecord == null)
+            {
+                return NotFound();
+            }
+
+            var model = new PaymentRecordDetailviewModel                                        //Next we need our model
+            {
+
+                Id = paymentRecord.Id,
+                EmployeeId = paymentRecord.EmployeeId,
+                FullName = paymentRecord.FullName,
+                NiNo = paymentRecord.NiNo,
+                PayDate = paymentRecord.PayDate,
+                PayMonth = paymentRecord.PayMonth,
+                TaxYearId = paymentRecord.TaxYearId,
+                Year = _payComputationService.GetTaxYearById(paymentRecord.TaxYearId).YearOfTax,
+                TaxCode = paymentRecord.TaxCode,
+                HourlyRate = paymentRecord.HourlyRate,
+                HoursWorked = paymentRecord.HoursWorked,
+                ContractualHours = paymentRecord.ContractualHours,
+                OvertimeHours = paymentRecord.OvertimeHours,
+                OvertimeRate = _payComputationService.OvertimeRate(paymentRecord.HourlyRate),
+                ContractualEarnings = paymentRecord.ContractualEarnings,
+                OvertimeEarnings = paymentRecord.OvertimeEarnings,
+                Tax = paymentRecord.Tax,
+                NIC = paymentRecord.NIC,
+                UnionFee = paymentRecord.UnionFee,
+                SLC = paymentRecord.SLC,
+                TotalEarnings = paymentRecord.TotalEarnings,
+                TotalDeduction = paymentRecord.TotalDeduction,
+                Employee = paymentRecord.Employee,                  //This employee is equal to paymentRecord.Employee
+                TaxYear = paymentRecord.TaxYear,
+                NetPayment = paymentRecord.NetPayment,
+            };
+            return View(model);
+        }
     }
 }

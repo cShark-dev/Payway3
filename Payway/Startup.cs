@@ -37,6 +37,10 @@ namespace Payway
             services.AddControllersWithViews();
             services.AddRazorPages();
             services.AddScoped<IEmployeeService, EmployeeService>();            //A services added to the container which in turn makes that service available for Dependency injection, now this service can be injected anywhere
+            services.AddScoped<IPayComputationService, PayComputationService>();        //IPayComputationService is the service and the implementation is PayComputationService
+            services.AddScoped<INationalInsuranceContributionService, NationalInsuranceContributionService>();
+            services.AddScoped<ITaxService, TaxService>();
+        
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

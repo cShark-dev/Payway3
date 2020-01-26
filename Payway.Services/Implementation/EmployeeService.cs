@@ -13,7 +13,7 @@ namespace Payway.Services.Implementation
     {
         private readonly ApplicationDbContext _context;
         private decimal studentLoanAmount;
-        private decimal fee;
+        //private decimal fee;
 
         public EmployeeService(ApplicationDbContext context)
         {
