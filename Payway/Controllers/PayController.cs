@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Payway.Controllers
 {
-   [Authorize(Roles = "Admin, Manager")]
+   // [Authorize(Roles = "Admin, Manager")]
     public class PayController : Controller
     {                
         private readonly IPayComputationService _payComputationService;
@@ -71,7 +71,7 @@ namespace Payway.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-       [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create(PaymentRecordCreateViewModel model)
         {
             if (ModelState.IsValid)         //First we need to check if the model state is valid, if it's valid we can create a new payment record
@@ -193,6 +193,7 @@ namespace Payway.Controllers
             return View(model);
         }
 
+        
         public IActionResult GeneratePayslipPdf(int id)
         {
             var payslip = new ActionAsPdf("Payslip", new { id = id })
