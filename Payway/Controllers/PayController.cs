@@ -38,7 +38,7 @@ namespace Payway.Controllers
             _taxService = taxService;
             _nationalInsuranceContributionService = nationalInsuranceContributionService;
         }
-
+        [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
             var payRecords = _payComputationService.GetAll().Select(pay => new PaymentRecordIndexViewModel
@@ -110,7 +110,7 @@ namespace Payway.Controllers
             ViewBag.taxYears = _payComputationService.GetAllTaxYear();      //AND all the tax years together with the view, this create is async so the method Iactionresult needs to be async
             return View();
         }
-
+        [Authorize(Roles = "Admin")]
         public IActionResult Detail(int id)             //We need to create a detail view model, go to models folder and add a class named "PaymentRecordDetailViewModel"
         {
 

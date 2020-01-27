@@ -15,7 +15,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Payway.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
 
     public class EmployeeController : Controller
     {    
@@ -27,7 +27,7 @@ namespace Payway.Controllers
             _env = env;
 
         }
-
+        [AllowAnonymous]
         public IActionResult Index(int? pageNumber)                
         {
             var employees = _employeeService.GetAll().Select(employee => new EmployeeIndexViewModel
@@ -46,14 +46,14 @@ namespace Payway.Controllers
             return View(EmployeeListPagination<EmployeeIndexViewModel>.Create(employees, pageNumber ?? 1, pageSize) );    //Return a collection of employees to the view
 
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Create()
         {
             var model = new EmployeeCreateViewModel();
             return View(model);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]      //Prevents cross-site Request Forgery Attacks
         public async Task<IActionResult> Create(EmployeeCreateViewModel model)
