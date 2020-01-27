@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Payway.Entity;
 using Payway.Models;
 using Payway.Services;
@@ -10,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace Payway.Controllers
 {
+   [Authorize(Roles = "Admin, Manager")]
     public class PayController : Controller
-    {
-
+    {                
         private readonly IPayComputationService _payComputationService;
         private readonly IEmployeeService _employeeService;
         private readonly ITaxService _taxService;
@@ -57,6 +58,7 @@ namespace Payway.Controllers
             return View(payRecords);          //We need a view model for this index, right click models add new model
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()               //We need the create action method, we start with the GET version
         {
             ViewBag.employees = _employeeService.GetallEmployeesForPayroll();                   //This will render a selectable drop down list of all employees, we need to return the collection of employees as a select list item type
@@ -69,6 +71,7 @@ namespace Payway.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+       [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create(PaymentRecordCreateViewModel model)
         {
             if (ModelState.IsValid)         //First we need to check if the model state is valid, if it's valid we can create a new payment record

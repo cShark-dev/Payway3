@@ -11,12 +11,14 @@ using Payway.Entity;
 using Payway.Models;
 using Payway.Services;
 using Payway.Persistence;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Payway.Controllers
 {
-    public class EmployeeController : Controller
-    {
+    [Authorize]
 
+    public class EmployeeController : Controller
+    {    
         private readonly IEmployeeService _employeeService;
         private readonly IWebHostEnvironment _env;
         public EmployeeController(IEmployeeService employeeService, IWebHostEnvironment env)            //We injected IEmployeeService which is our interface

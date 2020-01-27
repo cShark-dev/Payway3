@@ -8,12 +8,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Payway.Services;
 using Payway.Services.Implementation;
-
+using Microsoft.AspNetCore.Authorization;
 
 namespace Payway
 {
     public class Startup
     {
+        
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -29,8 +30,9 @@ namespace Payway
                     Configuration.GetConnectionString("DefaultConnection")));
             
             services.AddIdentity<IdentityUser, IdentityRole>()
-          
+                .AddDefaultUI()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+                
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -53,12 +55,21 @@ namespace Payway
             services.AddScoped<IPayComputationService, PayComputationService>();        //IPayComputationService is the service and the implementation is PayComputationService
             services.AddScoped<INationalInsuranceContributionService, NationalInsuranceContributionService>();
             services.AddScoped<ITaxService, TaxService>();
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = $"/Identity/Account/Login";
+                options.LogoutPath = $"/Identity/Account/Logout";
+                options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
+
+            });
         
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
         {
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -88,5 +99,6 @@ namespace Payway
                 endpoints.MapRazorPages();
             });
         }
+
     }
 }
